@@ -2,42 +2,48 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const bodyParser = require('body-parser');
-const Pool = require('pg').Pool
+//const { Pool } = require('mysql').Pool
+let mysql = require('mysql');
 
 
-
-const pool = new Pool({
-  user: 'root',
+//const pool = new Pool({
+let connection = mysql.createConnection({
+  user: 'caitlin',
   host: 'localhost',
   database: '601_project',
-  password: 'mooonflame',
-})
-
-
-
-//Initial Root Route. localhost:3000/
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  password: '',
 });
 
-//Send all database info in json file to client
-app.get('/json', (req, res) =>{
-  let jsonToSend = [];
+connection.connect(function(err) {
+  if (err) {
+    return console.error('error: ' + err.message);
+  }
 
-  //TODO: Send all rows for database
-  //you should probably have a nested query for each table
-  //then add it to the jsonToSend array
-  pool.query('SELECT * FROM irsincomebyzipcode;' ,(error, results) => {
-    if (error) {
-      throw error
+});
+
+  let createTodos = "SELECT * FROM irsincomebyzipcode;"
+
+  //app.get('/index.html', function(req,res) {
+  connection.query(createTodos, function(err, results, fields) {
+    console.log(results);
+    //added next line
+  //  results.render('index.html', {data:results, error:null});
+   // console.log(results);
+    if (err) {
+      console.log(err.message);
+    }
+  });
+
+  connection.end(function(err) {
+    if (err) {
+      return console.log(err.message);
     }
 
-    Console.log("started")
-    jsonToSend.push(results.rows);
-    //console.log(jsonToSend);
-    res.json(jsonToSend);
-  })
-});
+   // console.log(results);
+  });
+//});
+
+
 
 
 
