@@ -1,19 +1,21 @@
 {
   "name": "601project",
   "version": "0.0.0",
-  "private": true,
+  "main": "app.js",
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^1.19.4"
   },
   "dependencies": {
-    "cookie-parser": "~1.4.4",
-    "debug": "~2.6.9",
-    "express": "~4.16.1",
-    "http-errors": "~1.6.3",
-    "morgan": "~1.9.1",
-    "mssql": "^6.2.0",
-    "mysql": "^2.18.1",
-    "pg": "^8.0.2",
-    "pug": "2.0.0-beta11"
-  }
+    "async": "^3.2.0",
+    "bcrypt": "^3.0.8",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "pg": "^8.0.2"
+  },
+  "description": ""
 }

@@ -1,115 +1,51 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var mysql = require('mysql');
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var app = express();
-
-
-// Create a connection to the database
-//var connection = mysql.createConnection();{
-
-function getMySQLConnection() {
-  return mysql.createConnection({
-    host     : 'localhost',
-    user     : 'root',
-    password : 'moonflame',
-    database : '601_project'
-  });
-}
+const express = require('express');
+const app = express();
+const path = require('path');
+const bodyParser = require('body-parser');
+const Pool = require('pg').Pool
 
 
 
-
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
-
-
-
-
-
-
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+const pool = new Pool({
+  user: 'root',
+  host: 'localhost',
+  database: '601_project',
+  password: 'mooonflame',
+})
 
 
 
-
-
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+//Initial Root Route. localhost:3000/
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+//Send all database info in json file to client
+app.get('/json', (req, res) =>{
+  let jsonToSend = [];
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
-
-module.exports = app;
-
-
-
-
-
-
-app.get('/income', function(req, res) {
-  var incomeList = [];
-
-  // Connect to MySQL database.
-  var connection = getMySQLConnection();
-  connection.connect();
-
-  // Do the query to get data.
-  connection.query('SELECT * FROM irsincomebyzipcode', function(err, rows, fields) {
-    if (err) {
-      res.status(500).json({"status_code": 500,"status_message": "internal server error"});
-    } else {
-      console.log("connected???");
-      // Loop check on each row
-      for (var i = 0; i < rows.length; i++) {
-
-        // Create an object to save current row's data
-        var income = {
-          'state':rows[i].state,
-          'zipcode':rows[i].zipcode,
-          'numreturns':rows[i].numreturns,
-          'AGI':rows[i].AGI
-        }
-        // Add object into array
-        incomeList.push(income);
-      }
-
-      // Render index.pug page using array
-      res.render('www', {"personList": incomeList});
-      res.render('index', {"personList": incomeList});
-
-
+  //TODO: Send all rows for database
+  //you should probably have a nested query for each table
+  //then add it to the jsonToSend array
+  pool.query('SELECT * FROM irsincomebyzipcode;' ,(error, results) => {
+    if (error) {
+      throw error
     }
-  });
 
-  // Close the MySQL connection
-  connection.end();
-
+    Console.log("started")
+    jsonToSend.push(results.rows);
+    //console.log(jsonToSend);
+    res.json(jsonToSend);
+  })
 });
 
 
 
+//==========================================================================
+app.use(express.static(__dirname + '/HTML'));
+app.use(express.static(__dirname + '/js'));
+app.use(express.static(__dirname + '/CSS'));
+app.use(express.static(__dirname + '/'));
+
+
+app.listen(8080, () => {console.log("started on port 8080");});
