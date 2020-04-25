@@ -1,2 +1,2 @@
 # 601project
-nmp install 
+npm install 
