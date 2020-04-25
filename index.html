@@ -1,98 +1,238 @@
+
 <!doctype html>
 <html lang="en">
-<head>
-    <link rel="stylesheet" type="text/css" href="/CSS/index.css">
-    <title>Caitlins App</title>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/CSS/index.css">
+<title>Caitlins App</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<body>
 
-    <script type="text/javascript">
-        $(document).ready(() => {
+<div class="jumbotron text-center">
+    <h2>Analyzing Hospital Data By Zipcode</h2>
+    <p>CSIS 601, Spring 2020</p>
 
-            $.ajax({
-                url: '/lowincomebyzip',
-                type: 'GET',
-                dataType: 'json',
-                success: function (data) {
+</div>
 
-               $('#tBody').html(JSON.stringify(data));
+<script type="text/javascript">
+  /*  $(document).ready(() => {
 
-/*                    drawTable(JSON.stringify(data));
-                    drawTable(data)
-                    console.log(data);*/
+        $.ajax({
+            url: '/averageagi',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
 
-                }
+                $('#avgagidiv').html(JSON.stringify(data[0][0]));
+               console.log(data);
 
-            });
+            }
 
         });
 
 
-        function drawTable(data) {
-           var rows = [];
+        $.ajax({
+            url: '/averagerating',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
 
-            for (var i = 0; i < data.length; i++) {
-                rows.push(drawRow(data[i]));
+                $('#avgratingdiv').html(JSON.stringify(data[0][0]));
+                console.log(data);
             }
 
-            $("#tab1").append(rows);
-        }
+        });
 
-        function drawRow(rowData) {
-            const row = $("<tr />");
-            row.append($("<td>" + rowData.facility_name + "</td>"));
-            row.append($("<td>" + rowData.city + "</td>"));
-            row.append($("<td>" + rowData.state + "</td>"));
-            row.append($("<td>" + rowData.address + "</td>"));
-            row.append($("<td>" + rowData.zipcode + "</td>"));
-            row.append($("<td>" + rowData.hospital_overall_rating + "</td>"));
-            row.append($("<td>" + rowData.pop_twentysixteen + "</td>"));
+        $.ajax({
+            url: '/averagepop',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
 
-            return row;
-        }
+                $('#avgpopdiv').html(JSON.stringify(data[0][0]));
+                console.log(data);
+            }
 
-    </script>
-</head>
-<body>
-<h2>Hospital Data</h2>
-<div id="infotables" class="infotables"></div>
-<br>
-<table id ="tableone" class ="table">
-    <caption>Data Table: Low Income and Low Hospital Rating</caption>
-    <thead>
-    <tbody>
-    <tr>
-        <th>Facility Name</th>
-        <th>City</th>
-        <th>State</th>
-        <th>Address</th>
-        <th>Zipcode</th>
-        <th>Hospital Rating</th>
-        <th>Population</th>
-    </tr>
-    </thead>
-    </tbody>
-</table>
-<script type="text/javascript" src="/index.js">
+        });
 
-    const rankingsBody = document.querySelector("#tableone > tbody")
-
-    ///console.log(rankingsBody);
-
-    function loadRankings () {
-        const request = new XMLHttpRequest();
-
-        request.open("get", "http://localhost:8080/lowincomebyzip");
-
-        request.onload = () => {
-
-            const json = json.parse(request.responseText);
-
-
-
-        }
-    }
+    });
+*/
 
 
 </script>
+
+<div class="col-sm-4">
+    <h3>Averages associated with the national sample</h3>
+
+    <br>
+    <table border=1, class="table table-striped">
+        <thead>
+        <tr>
+            <th>Average Hospital Rating</th>
+            <th>Average Population</th>
+            <th>Average AGI</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>3.2211</td>
+            <td>9724.4093</td>
+            <td>57.255631337393586</td>
+        </tr>
+
+        </tr>
+        </tbody>
+    </table>
+
+    <br>
+    <button type="button" class= "btn btn-primary btn-block" onclick="gotoAb()">About</button>
+    <script>
+        function gotoAb()
+        {
+            location.href = "/about.html";
+        }
+    </script>
+    <br>
+    <br>
+    <button type="button" class="btn btn-primary btn-block" onclick="goHome()">Discussion</button>
+    <script>
+        function goHome()
+        {
+            location.href = "/discussion.html";
+        }
+    </script>
+    <br>
+    <br>
+    <br>
+
+    <p> Application by Caitlin Cabrera </p>
+    <p>data from irs.gov, medicare.gov and cdc.gov</p>
+</div>
+
+
+<div class="col-sm-4">
+<h3>Low income associated with low hospital ratings</h3>
+<a href="/lowincome.html">Complete List Of Data </a>
+<br>
+<br>
+<table border=1, class="table table-striped">
+    <thead>
+    <tr>
+        <th>Average Hospital Rating</th>
+        <th>Average Population</th>
+        <th>Average AGI</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>1.7731</td>
+        <td>31291.713</td>
+        <td>42.24764916992285</td>
+    </tr>
+    <tr>
+
+    </tr>
+    </tbody>
+</table>
+</div>
+
+
+<div class="col-sm-4">
+<h3>High income associated with high hospital ratings</h3>
+<a href="/highincome.html">Complete List Of Data</a>
+<br>
+<br>
+<table border=1, class="table table-striped">
+    <thead>
+    <tr>
+        <th>Average Hospital Rating</th>
+        <th>Average Population</th>
+        <th>Average AGI</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>4.3673</td>
+        <td>27806.8313</td>
+        <td>92.90017115355008</td>
+    </tr>
+
+    </tr>
+    </tbody>
+</table>
+</div>
+
+
+<div class="col-sm-4">
+    <h3>Below average income only</h3>
+    <a href="/onlylowincome.html">Complete List Of Data</a>
+    <br>
+    <br>
+    <table border=1, class="table table-striped">
+        <thead>
+        <tr>
+            <th>Average Hospital Rating</th>
+            <th>Average Population</th>
+            <th>Average AGI</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>3.1326</td>
+            <td>24496.6826</td>
+            <td>44.371978077027286</td>
+        </tr>
+
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+<div class="col-sm-4">
+    <h3>Above average income only</h3>
+    <a href="/onlyhighincome.html">Complete List Of Data</a>
+    <br>
+    <br>
+    <table border=1, class="table table-striped">
+        <thead>
+        <tr>
+            <th>Average Hospital Rating</th>
+            <th>Average Population</th>
+            <th>Average AGI</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>3.4743</td>
+            <td>28755.0898</td>
+            <td>91.28192418943868</td>
+        </tr>
+        <tr>
+
+        </tr>
+        </tbody>
+    </table>
+</div>
+<br>
 </body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </html>
+

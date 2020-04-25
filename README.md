@@ -1,1 +1,2 @@
 # 601project
+nmp install 
