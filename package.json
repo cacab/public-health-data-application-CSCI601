@@ -5,6 +5,10 @@
   "scripts": {
     "start": "node app.js"
   },
+  "keywords": [
+    "example",
+    "heroku"
+  ],
   "author": "",
   "license": "ISC",
   "devDependencies": {
@@ -18,6 +22,9 @@
     "mysql": "^2.18.1",
     "pg": "^8.0.2",
     "xmlhttprequest": "^1.8.0"
+  },
+  "engines": {
+    "node": "10.x"
   },
   "description": ""
 }

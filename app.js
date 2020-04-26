@@ -18,25 +18,17 @@ connection.connect(function(err) {
   }
 
 });
-// do not remove below
+
 let createTodos = "SELECT * FROM irsincomebyzipcode;"
 
   connection.query(createTodos, function(err, results, fields) {
-   // console.log(results);
-    //('#test').html(JSON.stringify(results));
+
 
     if (err) {
       console.log(err.message);
     }
   });
-/*  connection.end(function(err) {
-    if (err) {
-      return console.log(err.message);
-    }
 
-  });*/
-
-// do not remove above
 
 app.get("/",(req, results) => {
   results.sendFile(__dirname + "/index.html");
@@ -80,7 +72,7 @@ app.get('/averageagi', (req, res) =>{
     res.json(dataSent);
 
   //  console.log(results);
-   // console.log([1].AVG(avg_agi));
+
   })
 
 
@@ -109,7 +101,7 @@ app.get('/averageslowincome', (req, res) =>{
   let dataSent = [];
   connection.query("SELECT AVG(hospital_overall_rating), AVG(pop_twentysixteen), AVG(avg_agi)\n" +
       "FROM hospitalGeneralInformation JOIN irsincomebyzipcode JOIN popbyzipcode\n" +
-      "WHERE hospital_overall_rating <= 2 AND avg_agi < 57.3 AND hospitalGeneralInformation.zipcode = irsincomebyzipcode.zipcode AND  irsincomebyzipcode.zipcode= popbyzipcode.zipcode ; " ,(error, results) => {
+      "WHERE hospital_overall_rating < 3.2211 AND avg_agi < 57.3 AND hospitalGeneralInformation.zipcode = irsincomebyzipcode.zipcode AND  irsincomebyzipcode.zipcode= popbyzipcode.zipcode ; " ,(error, results) => {
     if (error) {
       throw error
     }
@@ -129,7 +121,7 @@ app.get('/lowincomebyzip', (req, res) =>{
   let dataSent = [];
   connection.query("SELECT facility_name, hospitalGeneralInformation.city, hospitalGeneralInformation.state, address, hospitalGeneralInformation.zipcode, hospital_overall_rating, pop_twentysixteen, avg_agi\n" +
       "FROM hospitalGeneralInformation JOIN irsincomebyzipcode JOIN popbyzipcode\n" +
-      "WHERE hospital_overall_rating <= 2 AND avg_agi < 57.3 AND hospitalGeneralInformation.zipcode = irsincomebyzipcode.zipcode AND  irsincomebyzipcode.zipcode= popbyzipcode.zipcode\n" +
+      "WHERE hospital_overall_rating < 3.2211 AND avg_agi < 57.3 AND hospitalGeneralInformation.zipcode = irsincomebyzipcode.zipcode AND  irsincomebyzipcode.zipcode= popbyzipcode.zipcode\n" +
       "ORDER BY hospital_overall_rating; " ,(error, results) => {
     if (error) {
       throw error
@@ -150,7 +142,7 @@ app.get('/averageshighincome', (req, res) =>{
   let dataSent = [];
   connection.query("SELECT AVG(hospital_overall_rating), AVG(pop_twentysixteen), AVG(avg_agi)\n" +
       "FROM hospitalGeneralInformation JOIN irsincomebyzipcode JOIN popbyzipcode\n" +
-      "WHERE hospital_overall_rating > 3 AND avg_agi > 57.3 AND hospitalGeneralInformation.zipcode = irsincomebyzipcode.zipcode AND  irsincomebyzipcode.zipcode= popbyzipcode.zipcode ; " ,(error, results) => {
+      "WHERE hospital_overall_rating > 3.2211 AND avg_agi > 57.3 AND hospitalGeneralInformation.zipcode = irsincomebyzipcode.zipcode AND  irsincomebyzipcode.zipcode= popbyzipcode.zipcode ; " ,(error, results) => {
     if (error) {
       throw error
     }
@@ -169,7 +161,7 @@ app.get('/highincomebyzip', (req, res) =>{
   let dataSent2 = [];
   connection.query("SELECT facility_name, hospitalGeneralInformation.city, hospitalGeneralInformation.state, address, hospitalGeneralInformation.zipcode, hospital_overall_rating, pop_twentysixteen, avg_agi\n" +
       "FROM hospitalGeneralInformation JOIN irsincomebyzipcode JOIN popbyzipcode\n" +
-      "WHERE hospital_overall_rating > 3 AND avg_agi > 57.3 AND hospitalGeneralInformation.zipcode = irsincomebyzipcode.zipcode AND  irsincomebyzipcode.zipcode= popbyzipcode.zipcode\n" +
+      "WHERE hospital_overall_rating > 3.2211 AND avg_agi > 57.3 AND hospitalGeneralInformation.zipcode = irsincomebyzipcode.zipcode AND  irsincomebyzipcode.zipcode= popbyzipcode.zipcode\n" +
       "ORDER BY hospital_overall_rating;  " ,(error, results) => {
     if (error) {
       throw error
@@ -253,12 +245,12 @@ app.get('/lowincomeonly', (req, res) =>{
 
     //console.log(results);
   })
-  connection.end(function(err) {
-    if (err) {
-      return console.log(err.message);
-    }
+    connection.end(function(err) {
+        if (err) {
+            return console.log(err.message);
+        }
 
-  });
+    });
 
 });
 
@@ -269,6 +261,6 @@ app.use(express.static(__dirname + '/HTML'));
 app.use(express.static(__dirname + '/js'));
 app.use(express.static(__dirname + '/CSS'));
 app.use(express.static(__dirname + '/'));
-//app.use(express.static(__dirname + '/index.html'));
+
 
 app.listen(8080, () => {console.log(" Caitlin's 601 project is running on port 8080");});
